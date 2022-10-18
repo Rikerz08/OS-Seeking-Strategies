@@ -34,13 +34,16 @@ def FCFS(jobArray, head):
         head = currentTrack;
 
     #display total tracks
-    print ("The total tracks travelled is " + str(totalTracks) + ".");
+    print ("The total number of tracks is " + str(totalTracks) + ".");
 
     #display track sequence including head
     for i in range(0,numJobs):
         trackSeq.append(jobArray[i]);
 
-    print("Order of execution: " + str(trackSeq));
+    print("Order of tracks travelled: " + str(trackSeq));
+
+    #display average tracks
+    print("The average tracks travelled is", totalTracks/(numJobs+1));
         
 
 FCFS(trackArray, startingTrack);
