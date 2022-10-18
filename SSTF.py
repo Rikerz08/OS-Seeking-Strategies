@@ -1,76 +1,47 @@
-# Python3 program for implementation of
-# SSTF disk scheduling
- 
-# Calculates difference of each
-# track number with the head position
-def calculateDifference(queue, head, diff):
-    for i in range(len(diff)):
-        diff[i][0] = abs(queue[i] - head)
-     
-# find unaccessed track which is
-# at minimum distance from head
-def findMin(diff):
- 
-    index = -1
-    minimum = 999999999
- 
-    for i in range(len(diff)):
-        if (not diff[i][1] and
-                minimum > diff[i][0]):
-            minimum = diff[i][0]
-            index = i
-    return index
-     
-def shortestSeekTimeFirst(request, head):            
-        if (len(request) == 0):
-            return
-         
-        l = len(request)
-        diff = [0] * l
-         
-        # initialize array
-        for i in range(l):
-            diff[i] = [0, 0]
-         
-        # count total number of seek operation    
-        seek_count = 0
-         
-        # stores sequence in which disk
-        # access is done
-        seek_sequence = [0] * (l + 1)
-         
-        for i in range(l):
-            seek_sequence[i] = head
-            calculateDifference(request, head, diff)
-            index = findMin(diff)
-             
-            diff[index][1] = True
-             
-            # increase the total count
-            seek_count += diff[index][0]
-             
-            # accessed track is now new head
-            head = request[index]
-     
-        # for last accessed track
-        seek_sequence[len(seek_sequence) - 1] = head
-         
-        print("Total number of seek operations =",
-                                       seek_count)
-                                                         
-        print("Seek Sequence is")
-         
-        # print the sequence
-        for i in range(l + 1):
-            print(seek_sequence[i])
-     
-# Driver code
-if __name__ =="__main__":
-     
-    # request array
-    proc = [176, 79, 34, 60,
-            92, 11, 41, 114]
-    shortestSeekTimeFirst(proc, 50)
-     
-# This code is contributed by
-# Shubham Singh(SHUBHAMSINGH10)
+tracksTravelled = []
+
+def SSTF(head, sequence):
+    totalTracks = 0
+    tracksTravelled.append(head)
+    for i in range(len(sequence)):
+        near_num = sequence[
+            min(range(len(sequence)), key=lambda i: abs(sequence[i] - head))
+        ]
+        if head >= near_num:
+            difference = head - near_num
+            totalTracks += difference
+            head = near_num
+        if head <= near_num:
+            difference = near_num - head
+            totalTracks += difference
+            head = near_num
+        sequence.remove(near_num)
+        tracksTravelled.append(near_num)
+    print("Order of tracks travelled : 	", end="")
+    for i in tracksTravelled:
+        if i == tracksTravelled[len(tracksTravelled) - 1]:
+            print(i)
+        else:
+            print(i, ",", end="")
+    return totalTracks
+
+
+if __name__ == "__main__":
+    diskNumber = int(input("Enter the number of disks:	"))
+    if diskNumber > 0:
+        head = int(input("Enter initial header position : 	"))
+        while not head in range(diskNumber + 1):
+            head = int(input("Please enter valid initial head position :"))
+        sequence = []
+        sequence = list(map(int, input("Enter the sequence : 	").split()))
+        for i in sequence:
+            if i < 0 or i > diskNumber:
+                print("Sequence out of range")
+                exit(0)
+
+        totalTracks = SSTF(head, sequence)
+        print("Total number of tracks is : ", totalTracks)
+        print("The average tracks travelled is ", totalTracks/len(tracksTravelled))
+        print("Head  Path      Tracks Travelled");
+        for i in range(0,(len(tracksTravelled)-1)):
+            print(tracksTravelled[i], " to ", tracksTravelled[i+1], "    ", tracksTravelled[i+1] - tracksTravelled[i])

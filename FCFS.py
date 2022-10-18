@@ -44,6 +44,11 @@ def FCFS(jobArray, head):
 
     #display average tracks
     print("The average tracks travelled is", totalTracks/(numJobs+1));
+
+    #For displaying table
+    print("Head  Path      Tracks Travelled");
+    for i in range(0,(len(trackSeq)-1)):
+        print(trackSeq[i], " to ", trackSeq[i+1], "    ", trackSeq[i+1] - trackSeq[i])
         
 
 FCFS(trackArray, startingTrack);
