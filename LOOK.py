@@ -1,3 +1,4 @@
+seek_sequence = []
 def max_num(head, sequence):
     for i in sequence:
         if i > head:
@@ -9,11 +10,9 @@ def min_num(head, sequence):
         if sequence[i] < head:
             return sequence[i]
 
-seek_sequence = []
 
-def CLOOK(N, head, sequence):
-    
-    stop_condition = min_num(head, sequence)
+def LOOK(N, head, sequence):
+    old_head = head
     seek_operations = 0
     seek_sequence.append(head)
     near_num = max_num(head, sequence)
@@ -24,17 +23,24 @@ def CLOOK(N, head, sequence):
             head = near_num
             seek_sequence.append(head)
             near_num = max_num(head, sequence)
-            if head == stop_condition:
+        elif near_num < head:
+            difference = head - near_num
+            seek_operations += difference
+            head = near_num
+            seek_sequence.append(head)
+            near_num = min_num(head, sequence)
+            if head == min(sequence):
                 break
         if head == max(sequence):
-            difference = head - min(sequence)
-            head = min(sequence)
-            near_num = max_num(head, sequence)
+            near_num = min_num(old_head, sequence)
+            difference = head - near_num
             seek_operations += difference
+            head = near_num
             seek_sequence.append(head)
+            near_num = min_num(head, sequence)
     print("Seek Sequence : 	", end=" ")
     for i in seek_sequence:
-        if i == stop_condition:
+        if i == min(seek_sequence):
             print(i)
         else:
             print(i, " ==> ", end=" ")
@@ -54,11 +60,10 @@ if __name__ == "__main__":
             print("Sequence out of range")
             exit(0)
 
-        seek_operations = CLOOK(Number_disk, head, sequence)
+        seek_operations = LOOK(Number_disk, head, sequence)
         print("Total number of seek operations : ", seek_operations)
-        
-        print("The average tracks travelled is ", round(seek_operations/len(seek_sequence),2))
+        print("The average tracks travelled is ", seek_operations/len(seek_sequence))
         print("Head  Path       Tracks Travelled");
         for i in range(0,(len(seek_sequence)-1)):
-            print(abs(seek_sequence[i]), " to ", abs(seek_sequence[i+1]), "=", abs(seek_sequence[i+1] - abs(seek_sequence[i])))
+            print(seek_sequence[i], " to ", seek_sequence[i+1], "    ", seek_sequence[i+1] - seek_sequence[i])
 

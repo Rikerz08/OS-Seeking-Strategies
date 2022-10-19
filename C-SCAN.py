@@ -11,8 +11,8 @@ def min_num(head, sequence):
 
 seek_sequence = []
 
-def CLOOK(N, head, sequence):
-    
+
+def CSCAN(N, head, sequence):
     stop_condition = min_num(head, sequence)
     seek_operations = 0
     seek_sequence.append(head)
@@ -27,14 +27,16 @@ def CLOOK(N, head, sequence):
             if head == stop_condition:
                 break
         if head == max(sequence):
-            difference = head - min(sequence)
-            head = min(sequence)
+            difference = (N - 1 - head) + N - 1
+            head = 0
             near_num = max_num(head, sequence)
             seek_operations += difference
             seek_sequence.append(head)
     print("Seek Sequence : 	", end=" ")
     for i in seek_sequence:
-        if i == stop_condition:
+        if i == max(sequence):
+            print(i, " ==> ", N - 1, " ==> ", end=" ")
+        elif i == stop_condition:
             print(i)
         else:
             print(i, " ==> ", end=" ")
@@ -54,11 +56,9 @@ if __name__ == "__main__":
             print("Sequence out of range")
             exit(0)
 
-        seek_operations = CLOOK(Number_disk, head, sequence)
+        seek_operations = CSCAN(Number_disk, head, sequence)
         print("Total number of seek operations : ", seek_operations)
-        
         print("The average tracks travelled is ", round(seek_operations/len(seek_sequence),2))
         print("Head  Path       Tracks Travelled");
         for i in range(0,(len(seek_sequence)-1)):
             print(abs(seek_sequence[i]), " to ", abs(seek_sequence[i+1]), "=", abs(seek_sequence[i+1] - abs(seek_sequence[i])))
-
