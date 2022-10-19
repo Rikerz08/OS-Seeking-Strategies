@@ -13,7 +13,6 @@ seek_sequence = []
 
 
 def CSCAN(N, head, sequence):
-    # seek_sequence = []
     stop_condition = min_num(head, sequence)
     seek_operations = 0
     seek_sequence.append(head)
@@ -59,6 +58,7 @@ if __name__ == "__main__":
 
         seek_operations = CSCAN(Number_disk, head, sequence)
         print("Total number of seek operations : ", seek_operations)
+        print("The average tracks travelled is ", round(seek_operations/len(seek_sequence),2))
         print("Head  Path       Tracks Travelled");
         for i in range(0,(len(seek_sequence)-1)):
             print(abs(seek_sequence[i]), " to ", abs(seek_sequence[i+1]), "=", abs(seek_sequence[i+1] - abs(seek_sequence[i])))
