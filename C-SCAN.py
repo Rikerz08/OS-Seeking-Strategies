@@ -1,17 +1,18 @@
+#functions to get maximum and minimum number
 def max_num(head, sequence):
     for i in sequence:
         if i > head:
             return i
-
 
 def min_num(head, sequence):
     for i in range(len(sequence) - 1, -1, -1):
         if sequence[i] < head:
             return sequence[i]
 
+#list for storing final sequence
 seek_sequence = []
 
-
+#C-SCAN funcion to calculate tracks
 def CSCAN(N, head, sequence):
     stop_condition = min_num(head, sequence)
     seek_operations = 0
@@ -26,6 +27,7 @@ def CSCAN(N, head, sequence):
             near_num = max_num(head, sequence)
             if head == stop_condition:
                 break
+            
         if head == max(sequence):
             difference = (N - 1 - head) + N - 1
             head = 0
