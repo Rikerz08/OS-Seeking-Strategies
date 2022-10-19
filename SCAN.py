@@ -1,4 +1,4 @@
-seek_sequence = []
+seekSeq = []
 def max_num(head, sequence):
     for i in sequence:
         if i > head:
@@ -12,40 +12,40 @@ def min_num(head, sequence):
 
 def SCAN(N, head, sequence):
     old_head = head
-    seek_operations = 0
-    seek_sequence.append(head)
-    near_num = max_num(head, sequence)
+    seekOps = 0
+    seekSeq.append(head)
+    nearNum = max_num(head, sequence)
     for i in range(len(sequence)):
-        if near_num > head:
-            difference = near_num - head
-            seek_operations += difference
-            head = near_num
-            seek_sequence.append(head)
-            near_num = max_num(head, sequence)
-        elif near_num < head:
-            difference = head - near_num
-            seek_operations += difference
-            head = near_num
-            seek_sequence.append(head)
-            near_num = min_num(head, sequence)
+        if nearNum > head:
+            difference = nearNum - head
+            seekOps += difference
+            head = nearNum
+            seekSeq.append(head)
+            nearNum = max_num(head, sequence)
+        elif nearNum < head:
+            difference = head - nearNum
+            seekOps += difference
+            head = nearNum
+            seekSeq.append(head)
+            nearNum = min_num(head, sequence)
             if head == min(sequence):
                 break
         if head == max(sequence):
-            near_num = min_num(old_head, sequence)
-            difference = (N - 1 - head) + (N - 1 - near_num)
-            seek_operations += difference
-            head = near_num
-            seek_sequence.append(head)
-            near_num = min_num(head, sequence)
+            nearNum = min_num(old_head, sequence)
+            difference = (N - 1 - head) + (N - 1 - nearNum)
+            seekOps += difference
+            head = nearNum
+            seekSeq.append(head)
+            nearNum = min_num(head, sequence)
     print("Seek Sequence : 	", end=" ")
-    for i in seek_sequence:
-        if i == min(seek_sequence):
+    for i in seekSeq:
+        if i == min(seekSeq):
             print(i)
         elif i == max(sequence):
             print(i, " ==> ", N - 1, " ==> ", end=" ")
         else:
             print(i, " ==> ", end=" ")
-    return seek_operations
+    return seekOps
 
 
 if __name__ == "__main__":
@@ -61,10 +61,10 @@ if __name__ == "__main__":
             print("Sequence out of range")
             exit(0)
 
-        seek_operations = SCAN(Number_disk, head, sequence)
-        print("Total number of seek operations : ", seek_operations)
-        print("The average tracks travelled is ", seek_operations/len(seek_sequence))
+        seekOps = SCAN(Number_disk, head, sequence)
+        print("Total number of seek operations : ", seekOps)
+        print("The average tracks travelled is ", seekOps/len(seekSeq))
         print("Head  Path       Tracks Travelled");
-        for i in range(0,(len(seek_sequence)-1)):
-            print(abs(seek_sequence[i]), " to ", abs(seek_sequence[i+1]), "=", abs(seek_sequence[i+1] - abs(seek_sequence[i])))
+        for i in range(0,(len(seekSeq)-1)):
+            print(abs(seekSeq[i]), " to ", abs(seekSeq[i+1]), "=", abs(seekSeq[i+1] - abs(seekSeq[i])))
 
