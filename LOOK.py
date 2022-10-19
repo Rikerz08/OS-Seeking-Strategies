@@ -10,7 +10,8 @@ def min_num(head, sequence):
         if sequence[i] < head:
             return sequence[i]
 
-def SCAN(N, head, sequence):
+
+def LOOK(N, head, sequence):
     old_head = head
     seek_operations = 0
     seek_sequence.append(head)
@@ -32,7 +33,7 @@ def SCAN(N, head, sequence):
                 break
         if head == max(sequence):
             near_num = min_num(old_head, sequence)
-            difference = (N - 1 - head) + (N - 1 - near_num)
+            difference = head - near_num
             seek_operations += difference
             head = near_num
             seek_sequence.append(head)
@@ -41,8 +42,6 @@ def SCAN(N, head, sequence):
     for i in seek_sequence:
         if i == min(seek_sequence):
             print(i)
-        elif i == max(sequence):
-            print(i, " ==> ", N - 1, " ==> ", end=" ")
         else:
             print(i, " ==> ", end=" ")
     return seek_operations
@@ -61,10 +60,10 @@ if __name__ == "__main__":
             print("Sequence out of range")
             exit(0)
 
-        seek_operations = SCAN(Number_disk, head, sequence)
+        seek_operations = LOOK(Number_disk, head, sequence)
         print("Total number of seek operations : ", seek_operations)
         print("The average tracks travelled is ", seek_operations/len(seek_sequence))
         print("Head  Path       Tracks Travelled");
         for i in range(0,(len(seek_sequence)-1)):
-            print(abs(seek_sequence[i]), " to ", abs(seek_sequence[i+1]), "=", abs(seek_sequence[i+1] - abs(seek_sequence[i])))
+            print(seek_sequence[i], " to ", seek_sequence[i+1], "    ", seek_sequence[i+1] - seek_sequence[i])
 
