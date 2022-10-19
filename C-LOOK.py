@@ -1,64 +1,64 @@
-def max_num(head, sequence):
+def maxNum(head, sequence):
     for i in sequence:
         if i > head:
             return i
 
 
-def min_num(head, sequence):
+def minNum(head, sequence):
     for i in range(len(sequence) - 1, -1, -1):
         if sequence[i] < head:
             return sequence[i]
 
-seek_sequence = []
+seekSequence = []
 
 def CLOOK(N, head, sequence):
     
-    stop_condition = min_num(head, sequence)
-    seek_operations = 0
-    seek_sequence.append(head)
-    near_num = max_num(head, sequence)
+    stopCondition = minNum(head, sequence)
+    seekOperations = 0
+    seekSequence.append(head)
+    nearNum = maxNum(head, sequence)
     for i in range(len(sequence)):
-        if near_num > head:
-            difference = near_num - head
-            seek_operations += difference
-            head = near_num
-            seek_sequence.append(head)
-            near_num = max_num(head, sequence)
-            if head == stop_condition:
+        if nearNum > head:
+            difference = nearNum - head
+            seekOperations += difference
+            head = nearNum
+            seekSequence.append(head)
+            nearNum = maxNum(head, sequence)
+            if head == stopCondition:
                 break
         if head == max(sequence):
             difference = head - min(sequence)
             head = min(sequence)
-            near_num = max_num(head, sequence)
-            seek_operations += difference
-            seek_sequence.append(head)
+            nearNum = maxNum(head, sequence)
+            seekOperations += difference
+            seekSequence.append(head)
     print("Seek Sequence : 	", end=" ")
-    for i in seek_sequence:
-        if i == stop_condition:
+    for i in seekSequence:
+        if i == stopCondition:
             print(i)
         else:
             print(i, " ==> ", end=" ")
-    return seek_operations
+    return seekOperations
 
 
 if __name__ == "__main__":
-    Number_disk = int(input("Enter the number of disks:	"))
-    if Number_disk > 0:
+    numberDisk = int(input("Enter the number of disks:	"))
+    if numberDisk > 0:
         head = int(input("Enter initial header position : 	"))
-        while not head in range(Number_disk + 1):
+        while not head in range(numberDisk + 1):
             head = int(input("Please enter valid initial head position :"))
         sequence = []
         sequence = list(map(int, input("Enter the sequence : 	").split()))
         sequence.sort()
-        if min(sequence) < 0 or max(sequence) > Number_disk:
+        if min(sequence) < 0 or max(sequence) > numberDisk:
             print("Sequence out of range")
             exit(0)
 
-        seek_operations = CLOOK(Number_disk, head, sequence)
-        print("Total number of seek operations : ", seek_operations)
+        seekOperations = CLOOK(numberDisk, head, sequence)
+        print("Total number of seek operations : ", seekOperations)
         
-        print("The average tracks travelled is ", round(seek_operations/len(seek_sequence),2))
+        print("The average tracks travelled is ", round(seekOperations/len(seekSequence),2))
         print("Head  Path       Tracks Travelled");
-        for i in range(0,(len(seek_sequence)-1)):
-            print(abs(seek_sequence[i]), " to ", abs(seek_sequence[i+1]), "=", abs(seek_sequence[i+1] - abs(seek_sequence[i])))
+        for i in range(0,(len(seekSequence)-1)):
+            print(abs(seekSequence[i]), " to ", abs(seekSequence[i+1]), "         =", abs(seekSequence[i+1] - abs(seekSequence[i])))
 
